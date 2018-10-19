@@ -138,3 +138,33 @@ def outline(img):
     new_image = new_image.astype(np.uint8)
     new_image = utils.InvertGrayImg(new_image)
     return new_image
+
+
+def sharpen(img):
+
+    """
+    Applies Sharpen filter to a colored numpy image
+
+    Parameters:
+    arg1 (np.array): numpy image matrix
+
+    Returns:
+    np.array: Sharpened image
+    """
+
+    kernel = np.array([[0., -1., 0.],
+                   [-1., 5., -1.],
+                   [0., -1., 0.]])
+
+    img = utils.rgb2gray(img)
+
+    new_image = np.zeros((img.shape[0]-kernel.shape[0]+1, img.shape[1]-kernel.shape[1]+1))
+
+    for ix in range(new_image.shape[0]):
+        for iy in range(new_image.shape[1]):
+            im_patch = img[ix:ix+kernel.shape[0], iy:iy+kernel.shape[1]]
+            h_prod = im_patch * kernel
+
+            new_image[ix, iy] = max(0, h_prod.sum())
+    new_image = new_image.astype(np.uint8)
+    return new_image
