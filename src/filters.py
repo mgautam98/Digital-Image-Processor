@@ -448,7 +448,7 @@ def sliding_contrast(img, per):
 
 @jit(nopython=True)
 def dither(img):
-  
+
     """
     Applies dither filter to a colored numpy image..
 
@@ -459,10 +459,10 @@ def dither(img):
     np.array: Dithered image.
     """
     img = utils.rgb2gray(img)
-    
+
     pixel = np.copy(img)
     w, h = img.shape
-    
+
     for iy in range(h-1):
         for ix in range(1,w-1):
             oldpixel = pixel[ix][iy]
@@ -479,3 +479,28 @@ def dither(img):
                 pixel[ix+1][iy+1] += err*(1./16)
 
     return pixel
+
+
+    @jit(nopython=True)
+    def watermark(img,txt):
+        """
+        Applies a black and white image as a watermark to a coloured image
+
+        Parameters:
+        arg1 (np.array): Numpy image matrix(image on which you want the watermark).
+        arg2(np.array): Numpy image matrix(black and white image which you want as a watermark).
+
+        Returns:
+        np.array: Watermarked image.
+        """
+    new_img = np.zeros_like(img)
+
+    for iz in range(3):
+        for iy in range(img.shape[0]):
+            for ix in range(img.shape[1]):
+                if txt[ix,iy,iz]<128:
+                    new_img[ix,iy,iz]=txt[ix,iy,iz]
+                else:
+                    new_img[ix,iy,iz]=img[ix,iy,iz]
+
+    return new_img
