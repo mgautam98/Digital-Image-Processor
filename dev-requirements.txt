@@ -45,7 +45,7 @@ python-apt==1.6.5+ubuntu0.2
 python-debian==0.1.32
 pytz==2020.1
 pyxdg==0.25
-PyYAML==3.12
+PyYAML==5.1
 requests==2.18.4
 requests-unixsocket==0.1.5
 SecretStorage==2.3.1
